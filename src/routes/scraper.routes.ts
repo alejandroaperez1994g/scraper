@@ -1,19 +1,15 @@
-import { Router } from "express";
-import { getPorsheModels } from "../controllers/scraper.controller";
+import {Router} from "express";
+import {getPorsheModels, getPorshes} from "../controllers/scraper.controller";
 
 
 const scraperRouter = Router()
 
 
-scraperRouter.post("/scraper",getPorsheModels)
-scraperRouter.get("/",(req,res)=>{
+scraperRouter.get("/", (req, res) => {
     res.send("Todo OK")
 })
-
-
-
-
-
+    .post("/scraper", getPorsheModels)
+    .post("/scraper2", getPorshes)
 
 
 export default scraperRouter
