@@ -20,7 +20,12 @@ const porscheSchema = new Schema({
                 name: String,
                 title: String,
                 media: String,
-                description: String
+                gallery: {
+                    type: [String],
+                    required: false
+                },
+                description: String,
+                //descriptionList: [String]
             }
         ]
     }
