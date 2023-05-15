@@ -1,11 +1,13 @@
 import {Router} from "express";
-import {getAllPorscheModels} from "../controllers/scraper.controller";
+import {getAllPorscheModels, getPorscheModelById} from "../controllers/models.controller";
 
 
-const scraperRouter = Router()
+const porscheRouter = Router()
 
 
-scraperRouter.get("/", getAllPorscheModels)
+porscheRouter
+    .get("/", getAllPorscheModels)
+    .get("/:id", getPorscheModelById)
 
 
-export default scraperRouter
+export default porscheRouter
