@@ -2,7 +2,6 @@ import express, {Express} from "express"
 import morgan from "morgan"
 
 import porscheRoutes from "../routes/models.routes"
-import dbConnection from "../db/config";
 import {seedDataInMongoDB} from "../utils/scraper.utils";
 
 
@@ -14,10 +13,10 @@ class Server {
         this.app = express()
         this.port = process.env.PORT
 
-        this.connectDB()
+
         this.middlewares()
         this.routes()
-        //this.seedDB() //only for seeding the data in MongoDB
+        // this.seedDB() //only for seeding the data in MongoDB
 
     }
 
@@ -25,9 +24,6 @@ class Server {
         this.app.use("/models", porscheRoutes)
     }
 
-    async connectDB() {
-        await dbConnection()
-    }
 
     async seedDB() {
         await seedDataInMongoDB()
