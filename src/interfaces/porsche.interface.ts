@@ -1,20 +1,22 @@
-export interface IPorscheDataFromScrapper {
-    name: string,
-    price: string,
-    blueprints: string,
-    tech_specs: IPorscheDataSpecs[],
-    sections: IPorscheDataSections[]
+export interface IPorsche718DataFromScrapper {
+    name: string;
+    price: string;
+    blueprints: string;
+    tech_specs: TechSpec[];
+    sections: Section[]
 }
 
-interface IPorscheDataSpecs {
-    name: string,
-    value: string
+
+export interface Section{
+  name: string;
+  title: string;
+  media?: string | undefined;
+  description?: string | undefined;
+  gallery?: string[] | undefined;
 }
 
-interface IPorscheDataSections {
-    name: string,
-    title: string,
-    gallery?: string[] | undefined
-    media?: string | undefined,
-    description?: string
+export interface TechSpec {
+    name: string;
+    value: string;
 }
+

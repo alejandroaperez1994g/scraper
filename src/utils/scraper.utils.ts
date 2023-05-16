@@ -1,7 +1,8 @@
 import puppeteer, {Browser} from "puppeteer";
 import * as fs from "fs";
-import porscheModel from "../models/porsche.model";
-import {IPorscheDataFromScrapper} from "../interfaces/porsche.interface";
+import {prisma} from "../db";
+import { IPorsche718DataFromScrapper } from "../interfaces/porsche.interface";
+
 
 
 export const scraperWithPuppeteer = async (url: string) => {
@@ -13,7 +14,7 @@ export const scraperWithPuppeteer = async (url: string) => {
         const puppeteerData = await page.evaluate(() => {
             const htmlCard = Array.from(document.querySelectorAll(".m-14-model-tile"))
             return htmlCard.map((htmlElement: Element, index: number) => ({
-                id: index,
+                //id: index,
                 name: htmlElement.querySelector(".m-14-model-name").textContent,
                 image: htmlElement.querySelector("img")?.getAttribute("data-image-src"),
                 link_url: htmlElement.querySelector('.m-01-link')?.getAttribute("href"),
@@ -28,7 +29,7 @@ export const scraperWithPuppeteer = async (url: string) => {
     }
 }
 
-export const get718ModelsData = async (link: string,): Promise<IPorscheDataFromScrapper> => {
+export const get718ModelsData = async (link: string,) => {
 
     try {
         const browser: Browser = await puppeteer.launch()
@@ -119,7 +120,7 @@ export const get718ModelsData = async (link: string,): Promise<IPorscheDataFromS
         })
         await browser.close()
 
-        return puppeteerData
+        return puppeteerData as IPorsche718DataFromScrapper
 
     } catch (e) {
         console.log(e)
@@ -276,9 +277,11 @@ export const seedDataInMongoDB = async () => {
     try {
         const porscheModels = await getAndCombineData()
         const filteredData = porscheModels.filter((model) => model?.tech !== undefined)
-        await porscheModel.insertMany(filteredData)
-        console.log("Data of porsche models inserted in MongoDB")
-
+        const dataInserted = await prisma.porsche.createMany({
+            data: filteredData
+        })
+        console.log(`Inserted ${dataInserted.count} rows in MongoDB`)
+        await prisma.$disconnect()
     } catch (e) {
         console.log(e)
     }
@@ -289,7 +292,6 @@ const saveDataInJsonFile = async (data) => {
     const json = JSON.stringify(data)
     fs.writeFile('porscheModels.json', json, 'utf8', () => {
         console.log("Data of porsche models saved in json file")
-
     })
 }
 
