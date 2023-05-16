@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI_CLUSTER")
+}
+
+type PorscheTech {
+  name       String
+  price      String
+  blueprints String
+  tech_specs PorscheTechTechSpecs[]
+  sections   PorscheTechSections[]
+}
+
+type PorscheTechSections {
+  name        String
+  title       String?
+  media       String?
+  gallery     String[] @default([])
+  description String?
+}
+
+type PorscheTechTechSpecs {
+  name  String
+  value String
+}
+
+model Porsche {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  image        String
+  link_url     String
+  model_series String
+  tech         PorscheTech
+}
