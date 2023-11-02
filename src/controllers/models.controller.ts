@@ -1,7 +1,8 @@
-import porscheModel from "../models/porsche.model";
+import porscheModel, {IPorsche} from "../models/porsche.model";
+import {Request, Response} from "express";
 
 
-export const getAllPorscheModels = async (req, res) => {
+export const getAllPorscheModels = async (req: Request, res: Response) => {
     try {
         const models = await porscheModel.find().lean().exec()
         res.status(200).send({models})
@@ -13,7 +14,7 @@ export const getAllPorscheModels = async (req, res) => {
 }
 
 
-export const getPorscheModelById = async (req, res) => {
+export const getPorscheModelById = async (req: Request, res: Response) => {
     const {id} = req.params
 
     if (!id) {
@@ -26,5 +27,23 @@ export const getPorscheModelById = async (req, res) => {
         res.status(500).send({msg: e})
     }
 
-
 }
+
+
+export const createPorsche = async (req: Request, res: Response) => {
+    const data: IPorsche = req.body
+
+    try {
+
+        const newPorsche = await porscheModel.create({
+            name: data.name,
+            image: data.image
+        })
+
+        res.status(201).send({newPorsche})
+
+    } catch (error) {
+        res.status(500).send({msg: error})
+    }
+}
+
