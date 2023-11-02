@@ -1,5 +1,5 @@
 interface Configuaration {
-development: ENV
+    [key: string]: ENV
 }
 
 interface ENV {
@@ -11,7 +11,7 @@ interface APP {
     PORT: number | string
 }
 
-interface DB{
+interface DB {
     uri: string
 }
 
