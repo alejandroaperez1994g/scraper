@@ -218,9 +218,10 @@ const get911CarreraModelsData = async (link: string,) => {
 
 const getTechData = async (data) => {
     return await Promise.all(
-        data.map((model) => {
+        data.map(async (model) => {
             if (model.model_series === "718 Models") {
-                return get718ModelsData(model.link_url).then(data => data)
+                const data = await get718ModelsData(model.link_url);
+                return data;
             } else {
                 return
             }
