@@ -1,6 +1,7 @@
 import {prisma} from "../db";
+import type {Request, Response} from "express";
 
-export const getAllPorscheModels = async (req, res) => {
+export const getAllPorscheModels = async (_: Request, res: Response) => {
     try {
         const models = await prisma.porsche.findMany()
         res.status(200).send({models})
@@ -12,7 +13,7 @@ export const getAllPorscheModels = async (req, res) => {
 }
 
 
-export const getPorscheModelById = async (req, res) => {
+export const getPorscheModelById = async (req: Request, res: Response) => {
     const {id} = req.params
     if (!id) {
         res.status(400).send({msg: "Id is required"})
