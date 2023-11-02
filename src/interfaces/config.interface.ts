@@ -1,4 +1,4 @@
-interface Configuration {
+interface Configuaration {
     development: ENV
 }
 
@@ -11,4 +11,4 @@ interface APP {
 }
 
 
-export default Configuration
+export default Configuaration

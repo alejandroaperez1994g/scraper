@@ -1,11 +1,11 @@
 import * as dotenv from 'dotenv';
-import Configuaration from "../interfaces/config.interface";
+import Configuration from "../interfaces/config.interface";
 
 dotenv.config()
 
 const ENV = process.env.NODE_ENV || 'development'
 
-const CONFIG: Configuaration = {
+const CONFIG: Configuration = {
     development: {
         app: {
             PORT: process.env.PORT || 4001
