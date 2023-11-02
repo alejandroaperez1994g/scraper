@@ -1,7 +1,39 @@
-import {model, Schema} from "mongoose"
+import {model, Schema, Model} from "mongoose"
 
+export interface IPorsche {
+    name: string
+    image: string
+    link_url: string
+    model_series: string
+    tech: ITech
+}
 
-const porscheSchema = new Schema({
+interface ITech{
+    price: String
+    blueprints: string
+    tech_specs: ITechSpecs[]
+    sections: ISection[]
+}
+
+interface ITechSpecs {
+    name: string
+    value: string
+}
+
+interface ISection {
+    name: String,
+    title: String,
+    media: String,
+    gallery: IGallery
+    description: string
+}
+
+interface IGallery{
+    type: string[]
+    required: boolean
+}
+
+const porscheSchema = new Schema<IPorsche, Model<IPorsche>>({
     name: String,
     image: String,
     link_url: String,
@@ -32,6 +64,6 @@ const porscheSchema = new Schema({
 })
 
 
-const porscheModel = model("Porsche", porscheSchema)
+const porscheModel = model<IPorsche>("Porsche", porscheSchema)
 
 export default porscheModel
